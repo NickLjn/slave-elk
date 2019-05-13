@@ -21,9 +21,8 @@ pipeline {
                         }
                         sleep(0.5);
                     }
+                    wget https://raw.githubusercontent.com/NickLjn/slave-elk/master/filebeat.yml
                 } 
-                sh 'ls'
-                curl -O https://raw.githubusercontent.com/NickLjn/slave-elk/master/filebeat.yml
                 sh 'ls'
             }
         }
