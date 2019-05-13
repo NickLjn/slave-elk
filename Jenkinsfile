@@ -24,6 +24,12 @@ pipeline {
                 }
                 sh 'pwd'
                 sh 'ls'
+                sh 'docker cp filebeat.yml jenkinsci/blueocean:/filebeat.yml'
+                sh '''
+                    docker exec -it $(docker ps |grep jenkins| awk '{print $1}') /bin/bash && \
+                    ls -al && \
+                    sudo apt-get update && apt-get install filebeat
+                    '''
             }
         }
     }
