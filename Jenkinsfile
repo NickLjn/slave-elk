@@ -24,11 +24,15 @@ pipeline {
                 }
                 sh 'pwd'
                 sh 'ls'
-                sh 'docker cp filebeat.yml f4ed25d50e25:/filebeat.yml'
+                sh 'docker cp filebeat.yml f4ed25d50e25:/filebeat.yml && docker cp entrypoint.sh f4ed25d50e25:/entrypoint.sh'
                 sh '''
                     docker exec f4ed25d50e25 /bin/bash && \
                     ls -al && \
-                    sudo apt-get update && apt-get install filebeat
+                    apt-get && \
+                    apt-get update && apt-get install filebeat && \
+                    cp filebeat.yml /etc/filebeat/filebeat.yml && \
+                    chmod +x /entrypoint.sh && \
+                    ./entrypoint.sh
                     '''
             }
         }
