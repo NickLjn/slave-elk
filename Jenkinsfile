@@ -34,8 +34,8 @@ pipeline {
                 //     chmod +x /entrypoint.sh && \
                 //     ./entrypoint.sh
                 //     '''
-                sh 'docker build -t jiananlin:test jiananlin:test'
-                sh 'docker run jiananlin:test'
+                sh 'docker build -t jiananlin:test .'
+                sh 'docker run -it jiananlin:test'
             }
         }
     }
