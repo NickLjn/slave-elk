@@ -24,9 +24,9 @@ pipeline {
                 }
                 sh 'pwd'
                 sh 'ls'
-                sh 'docker cp filebeat.yml $(docker ps |grep jenkins| awk '{print $1}'):/filebeat.yml'
+                sh 'docker cp filebeat.yml f4ed25d50e25:/filebeat.yml'
                 sh '''
-                    docker exec -it $(docker ps |grep jenkins| awk '{print $1}') /bin/bash && \
+                    docker exec -it f4ed25d50e25 /bin/bash && \
                     ls -al && \
                     sudo apt-get update && apt-get install filebeat
                     '''
