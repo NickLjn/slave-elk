@@ -22,7 +22,7 @@ pipeline {
                         sleep(0.5);
                     }
                 }
-                sh 'wget https://raw.githubusercontent.com/NickLjn/slave-elk/master/filebeat.yml'
+                sh 'pwd'
                 sh 'ls'
             }
         }
