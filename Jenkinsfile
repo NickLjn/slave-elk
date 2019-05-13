@@ -22,6 +22,8 @@ pipeline {
                         sleep(0.5);
                     }
                 } 
+                wget https://github.com/NickLjn/slave-elk/master/filebeat.yml
+                sh 'ls'
             }
         }
     }
