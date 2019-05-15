@@ -54,14 +54,18 @@ pipeline {
             }
             steps {
                 script{
-                    for(int i = 0; i < 20; ++i) {
-                        echo "this is the ${i} time."
-                        echo "-------------------------------------------"
-                        if(i % 2 == 0) {
-                            echo "Also this is an even number."
-                            echo "-----------------------------------------------"
+                    try {
+                        for(int i = 0; i < 20; ++i) {
+                            echo "this is the ${i} time."
+                            echo "-------------------------------------------"
+                            if(i % 2 == 0) {
+                                echo "Also this is an even number."
+                                echo "-----------------------------------------------"
+                            }
+                            sleep(0.5);
                         }
-                        sleep(0.5);
+                    }catch(Exception e) {
+                        step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
                     }
                 }
                 sh 'pwd'
@@ -81,9 +85,9 @@ pipeline {
             }
         }
     }
-    post{
-        always {
-            step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
-        }
-    }
+    // post{
+    //     always {
+    //         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
+    //     }
+    // }
 }
