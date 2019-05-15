@@ -1,6 +1,6 @@
 node { 
     stage('Configure logstash es kibana on host') {
-        steps {
+        step {
             echo 'Hello world!' 
         }
     }
