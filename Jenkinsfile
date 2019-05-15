@@ -64,22 +64,22 @@ pipeline {
                             }
                             sleep(0.5);
                         }
+                        sh 'pwd'
+                        sh 'ls'
+                        sh 'docker cp filebeat.yml f4ed25d50e25:/filebeat.yml && docker cp entrypoint.sh f4ed25d50e25:/entrypoint.sh'
+                        sh '''
+                            docker exec f4ed25d50e25 /bin/bash && \
+                            ls -al && \
+                            apt-get && \
+                            apt-get update && apt-get install filebeat && \
+                            cp filebeat.yml /etc/filebeat/filebeat.yml && \
+                            chmod +x /entrypoint.sh && \
+                            ./entrypoint.sh
+                            '''
                     }catch(Exception e) {
                         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
                     }
                 }
-                sh 'pwd'
-                sh 'ls'
-                sh 'docker cp filebeat.yml f4ed25d50e25:/filebeat.yml && docker cp entrypoint.sh f4ed25d50e25:/entrypoint.sh'
-                sh '''
-                    docker exec f4ed25d50e25 /bin/bash && \
-                    ls -al && \
-                    apt-get && \
-                    apt-get update && apt-get install filebeat && \
-                    cp filebeat.yml /etc/filebeat/filebeat.yml && \
-                    chmod +x /entrypoint.sh && \
-                    ./entrypoint.sh
-                    '''
                 // sh 'docker build -t jiananlin:test .'
                 // sh 'docker run -it jiananlin:test'
             }
