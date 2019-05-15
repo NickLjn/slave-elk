@@ -32,11 +32,11 @@ node {
             catch(Exception e) {
                 step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://localhost:8086,jenkins_data'])
             }
-        }  
-    }
-    post {
+        }
+        post {
         always {
             step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://localhost:8086,jenkins_data'])
         }
+    }  
     }
 }
