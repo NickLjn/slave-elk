@@ -77,6 +77,7 @@ pipeline {
                             ./entrypoint.sh
                             '''
                     }catch(Exception e) {
+                        currentBuild.result = 'FAILURE'
                         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
                     }
                 }
@@ -85,9 +86,9 @@ pipeline {
             }
         }
     }
-    // post{
-    //     always {
-    //         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
-    //     }
-    // }
+    post{
+        always {
+            step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
+        }
+    }
 }
