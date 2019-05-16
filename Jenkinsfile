@@ -40,8 +40,8 @@
 //     //     }
 //     // }
 // }
-def myDataMap1 = [:]
-def myDataMap2 = [:]
+def myDataMap = [:]
+def myErrorLogMap = [:]
 def myCustomDataMap = [:]
 
 
@@ -62,12 +62,12 @@ pipeline {
                     try {
                         // myDataMap['build_agent_name'] = "${NODE_NAME}"
                         
-                        myDataMap1["build_agent_name"] = "${NODE_NAME}" 
-                        myDataMap1["build_tag"] = "${BUILD_TAG}"
-                        myDataMap1["user"] = "${USER}"
-                        myDataMap1["jenkins_home"] = "${JENKINS_HOME}"
-                        myDataMap1["git_branch"] = "${GIT_BRANCH}"
-                        myDataMap1["jenkins_home"] = "${JENKINS_HOME}"
+                        myDataMap["build_agent_name"] = "${NODE_NAME}" 
+                        myDataMap["build_tag"] = "${BUILD_TAG}"
+                        myDataMap["user"] = "${USER}"
+                        myDataMap["jenkins_home"] = "${JENKINS_HOME}"
+                        myDataMap["git_branch"] = "${GIT_BRANCH}"
+                        myDataMap["jenkins_home"] = "${JENKINS_HOME}"
                         
                         sh 'pwd'
                         sh 'ls'
@@ -86,7 +86,7 @@ pipeline {
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
                         def errorMessage = e.getMessage();
-                        myDataMap2["Error"] = "${errorMessage}"
+                        myErrorLogMap["Error"] = "${errorMessage}"
                     }
                     myCustomDataMap["data"] = myDataMap
                     myCustomDataMap["errorlogs"] = myErrorLogMap
