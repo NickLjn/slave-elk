@@ -104,8 +104,8 @@ pipeline {
                 customPrefix: 'test',
                 target: 'http://172.17.0.3:8086,jenkins_data',
                 // selectedTarget: 'local influxDB', // OPTIONAL, recommended if you have multiple InfluxDB targets configured to ensure you write to correct target
-                jenkinsEnvParameterTag: 'KEY=' + env.PARAM,     // OPTIONAL, custom tags
-                jenkinsEnvParameterField: 'KEY=' + env.PARAM, // OPTIONAL, custom fields
+                jenkinsEnvParameterTag: 'KEY=' + env.LC_CTYPE,     // OPTIONAL, custom tags
+                jenkinsEnvParameterField: 'KEY=' + env.JAVA_ARCH, // OPTIONAL, custom fields
                 measurementName: 'myMeasurementName', // OPTIONAL, custom measurement name
                 replaceDashWithUnderscore: true, // OPTIONAL, replace "-" with "_" for tag names. Default=false
             ])
