@@ -58,7 +58,7 @@ pipeline {
             steps {
                 script{
                     try {
-                        myDataMap['build_agent_name'] = "${env.NODE_NAME}"
+                        myDataMap['build_agent_name'] = "${NODE_NAME}"
                         for(int i = 0; i < 20; ++i) {
                             echo "this is the ${i} time."
                             echo "-------------------------------------------"
@@ -85,7 +85,6 @@ pipeline {
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
                         
-                        step([$class: 'InfluxDbPublisher', customData: null, customDataMap: myDataMap, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
                     }
                 }
                 // sh 'docker build -t jiananlin:test .'
@@ -95,7 +94,17 @@ pipeline {
     }
     post{
         always {
-            step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
+            step([$class: 'InfluxDbPublisher',
+                customData: null,
+                customDataMap: myDataMap,
+                customPrefix: test,
+                target: 'http://172.17.0.3:8086,jenkins_data',
+                // selectedTarget: 'local influxDB', // OPTIONAL, recommended if you have multiple InfluxDB targets configured to ensure you write to correct target
+                jenkinsEnvParameterTag: 'KEY=' + env.PARAM,     // OPTIONAL, custom tags
+                jenkinsEnvParameterField: 'KEY=' + env.PARAM, // OPTIONAL, custom fields
+                measurementName: 'myMeasurementName', // OPTIONAL, custom measurement name
+                replaceDashWithUnderscore: true, // OPTIONAL, replace "-" with "_" for tag names. Default=false
+            ])
         }
     }
 }
