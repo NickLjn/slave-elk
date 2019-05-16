@@ -40,6 +40,7 @@
 //     //     }
 //     // }
 // }
+def myDataMap = [:]
 
 
 pipeline {
@@ -68,6 +69,7 @@ pipeline {
                         }
                         sh 'pwd'
                         sh 'ls'
+                        sh 'env'
                         sh 'docker cp filebeat.yml f4ed25d50e25:/filebeat.yml && docker cp entrypoint.sh f4ed25d50e25:/entrypoint.sh'
                         sh '''
                             docker exec f4ed25d50e25 /bin/bash && \
@@ -80,7 +82,8 @@ pipeline {
                             '''
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
-                        step([$class: 'InfluxDbPublisher', customData: null, customDataMap: null, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
+                        myDataMap['error'] = e
+                        step([$class: 'InfluxDbPublisher', customData: null, customDataMap: myDataMap, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
                     }
                 }
                 // sh 'docker build -t jiananlin:test .'
