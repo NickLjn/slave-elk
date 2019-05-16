@@ -85,7 +85,7 @@ pipeline {
                             
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
-                        def errorMessage = e.toString();
+                        def errorMessage = e.printStacktrace()
                         myDataMap2["Error"] = "${errorMessage}"
                     }
                     myCustomDataMap["series1"] = myDataMap1
