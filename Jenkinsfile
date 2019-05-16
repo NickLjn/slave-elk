@@ -85,12 +85,11 @@ pipeline {
                             
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
-                        def errorMessage = e.getMessage();
-                        myDataMap2["myMap2Key1"] = "${errorMessage}"
-
-                        myCustomDataMap["series1"] = myDataMap1
-                        myCustomDataMap["series2"] = myDataMap2
+                        def errorMessage = e.toString();
+                        myDataMap2["Error"] = "${errorMessage}"
                     }
+                    myCustomDataMap["series1"] = myDataMap1
+                    myCustomDataMap["series2"] = myDataMap2
                 }
                 // sh 'docker build -t jiananlin:test .'
                 // sh 'docker run -it jiananlin:test'
