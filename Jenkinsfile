@@ -58,6 +58,7 @@ pipeline {
             steps {
                 script{
                     try {
+                        myDataMap['build_agent_name'] = "${env.NODE_NAME}"
                         for(int i = 0; i < 20; ++i) {
                             echo "this is the ${i} time."
                             echo "-------------------------------------------"
@@ -80,9 +81,10 @@ pipeline {
                             chmod +x /entrypoint.sh && \
                             ./entrypoint.sh
                             '''
+                            
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
-                        myDataMap['error'] = e
+                        
                         step([$class: 'InfluxDbPublisher', customData: null, customDataMap: myDataMap, customPrefix: null, target: 'http://172.17.0.3:8086,jenkins_data'])
                     }
                 }
