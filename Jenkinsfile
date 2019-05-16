@@ -95,8 +95,8 @@ pipeline {
     post{
         always {
             step([$class: 'InfluxDbPublisher',
-                customData: null,
-                customDataMap: myDataMap,
+                customData: myDataMap,
+                customDataMap: null,
                 customPrefix: 'test',
                 target: 'http://172.17.0.3:8086,jenkins_data',
                 // selectedTarget: 'local influxDB', // OPTIONAL, recommended if you have multiple InfluxDB targets configured to ensure you write to correct target
