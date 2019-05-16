@@ -40,7 +40,9 @@
 //     //     }
 //     // }
 // }
-def myDataMap = [:]
+def myDataMap1 = [:]
+def myDataMap2 = [:]
+def myCustomDataMap = [:]
 
 
 pipeline {
@@ -58,16 +60,15 @@ pipeline {
             steps {
                 script{
                     try {
-                        myDataMap['build_agent_name'] = "${NODE_NAME}"
-                        for(int i = 0; i < 20; ++i) {
-                            echo "this is the ${i} time."
-                            echo "-------------------------------------------"
-                            if(i % 2 == 0) {
-                                echo "Also this is an even number."
-                                echo "-----------------------------------------------"
-                            }
-                            sleep(0.5);
-                        }
+                        // myDataMap['build_agent_name'] = "${NODE_NAME}"
+                        
+                        myDataMap1["build_agent_name"] = "${NODE_NAME}" 
+                        myDataMap1["build_tag"] = "${BUILD_TAG}"
+                        myDataMap1["user"] = "${USER}"
+                        myDataMap1["jenkins_home"] = "${JENKINS_HOME}"
+                        myDataMap1["git_branch"] = "${GIT_BRANCH}"
+                        myDataMap1["jenkins_home"] = "${JENKINS_HOME}"
+                        
                         sh 'pwd'
                         sh 'ls'
                         sh 'env'
@@ -84,7 +85,11 @@ pipeline {
                             
                     }catch(Exception e) {
                         currentBuild.result = 'FAILURE'
-                        
+                        def errorMessage = e.getMessage();
+                        myDataMap2["myMap2Key1"] = "${errorMessage}"
+
+                        myCustomDataMap["series1"] = myDataMap1
+                        myCustomDataMap["series2"] = myDataMap2
                     }
                 }
                 // sh 'docker build -t jiananlin:test .'
@@ -95,8 +100,8 @@ pipeline {
     post{
         always {
             step([$class: 'InfluxDbPublisher',
-                customData: myDataMap,
-                customDataMap: null,
+                customData: null,
+                customDataMap: myCustomDataMap,
                 customPrefix: 'test',
                 target: 'http://172.17.0.3:8086,jenkins_data',
                 // selectedTarget: 'local influxDB', // OPTIONAL, recommended if you have multiple InfluxDB targets configured to ensure you write to correct target
