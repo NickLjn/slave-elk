@@ -83,10 +83,10 @@ pipeline {
                             ./entrypoint.sh
                             '''
                             
-                    }catch(Exception e) {
+                    }catch(Throwable e) {
                         currentBuild.result = 'FAILURE'
-                        // def errorMessage = e.getStackTrace()
-                        myErrorLogMap["Error"] = "${e}"
+                        def errorMessage = e.getStackTrace()
+                        myErrorLogMap["Error"] = "${errorMessage}"
                     }
                     myCustomDataMap["data"] = myDataMap
                     myCustomDataMap["errorlogs"] = myErrorLogMap
