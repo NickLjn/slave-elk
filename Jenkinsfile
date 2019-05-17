@@ -85,7 +85,7 @@ pipeline {
                             
                     }catch(Throwable e) {
                         currentBuild.result = 'FAILURE'
-                        def errorMessage = org.codehaus.groovy.runtime.StackTraceUtils.sanitize(new Exception(e)).printStackTrace()
+                        def errorMessage = e.printStackTrace()
                         myErrorLogMap["Error"] = "${errorMessage}"
                     }
                     myCustomDataMap["data"] = myDataMap
