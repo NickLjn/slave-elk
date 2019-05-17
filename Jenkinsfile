@@ -83,12 +83,13 @@ pipeline {
                             ./entrypoint.sh
                             '''
                             
-                    }catch(Throwable e) {
-                        def sw = new StringWriter()
-                        def pw = new PrintWriter(sw)
-                        e.printStackTrace(pw)
-                        // def errorMessage = e.printStackTrace()
-                        myErrorLogMap["Error"] = "${sw.toString()}"
+                    }catch(err) {
+                        // def sw = new StringWriter()
+                        // def pw = new PrintWriter(sw)
+                        // e.printStackTrace(pw)
+                        def errorMessage = err.printStackTrace()
+                        // myErrorLogMap["Error"] = "${sw.toString()}"
+                        myErrorLogMap["Error"] = "${errorMessage}"
                         currentBuild.result = 'FAILURE'
                     }
                     myCustomDataMap["data"] = myDataMap
