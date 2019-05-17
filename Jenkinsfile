@@ -84,12 +84,12 @@ pipeline {
                             '''
                             
                     }catch(Throwable e) {
-                        currentBuild.result = 'FAILURE'
                         def sw = new StringWriter()
                         def pw = new PrintWriter(sw)
                         e.printStackTrace(pw)
                         // def errorMessage = e.printStackTrace()
                         myErrorLogMap["Error"] = "${sw.toString()}"
+                        currentBuild.result = 'FAILURE'
                     }
                     myCustomDataMap["data"] = myDataMap
                     myCustomDataMap["errorlogs"] = myErrorLogMap
