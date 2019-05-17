@@ -87,7 +87,7 @@ pipeline {
                         // def sw = new StringWriter()
                         // def pw = new PrintWriter(sw)
                         // e.printStackTrace(pw)
-                        def errorMessage = err.getStackTrace()
+                        def errorMessage = err.printSanitizedStackTrace()
                         // myErrorLogMap["Error"] = "${sw.toString()}"
                         myErrorLogMap["Error"] = "${errorMessage}"
                         currentBuild.result = 'FAILURE'
